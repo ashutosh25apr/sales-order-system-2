@@ -24,7 +24,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'npm'
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: sales-order-system/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('sales-order-system/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install npm dependencies
+        working-directory: ./sales-order-system
+        run: npm install
 
       - name: Build all services
         run: ./build-all.sh
