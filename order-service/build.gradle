@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.codehaus.groovy:groovy-all:3.0.9"
+    }
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.2.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
@@ -30,9 +39,15 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation 'org.springframework.security:spring-security-test'
-	testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
-	testImplementation "io.rest-assured:json-path:$restAssuredVersion"
+	testImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
+		exclude group: 'org.codehaus.groovy', module: 'groovy'
+		exclude group: 'org.codehaus.groovy', module: 'groovy-xml'
+	}
+	testImplementation("io.rest-assured:json-path:$restAssuredVersion") {
+		exclude group: 'org.codehaus.groovy', module: 'groovy-json'
+	}
 	testImplementation "io.rest-assured:xml-path:$restAssuredVersion"
+	testImplementation "org.codehaus.groovy:groovy-all:3.0.9"
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation "org.springframework.cloud:spring-cloud-starter:2.2.2.RELEASE"
 	testCompile "com.playtika.testcontainers:embedded-mongodb:$testContainersSpringBoot"
