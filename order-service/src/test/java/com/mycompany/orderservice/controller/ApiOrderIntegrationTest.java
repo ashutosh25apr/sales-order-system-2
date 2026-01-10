@@ -44,7 +44,7 @@ public class ApiOrderIntegrationTest {
     static void setProperties(DynamicPropertyRegistry registry) {
         String mongoUri = mongoDbContainer.getReplicaSetUrl();
         registry.add("spring.data.mongodb.uri", () -> mongoUri);
-        LOGGER.info("Setting spring.data.mongodb.uri to: {}", mongoUri);
+        LOGGER.error("Setting spring.data.mongodb.uri to: {}", mongoUri);
     }
 
     @Autowired
