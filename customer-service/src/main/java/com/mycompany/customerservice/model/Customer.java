@@ -1,7 +1,7 @@
 package com.mycompany.customerservice.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.util.Date;
 import java.util.Objects;
 
