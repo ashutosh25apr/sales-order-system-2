@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -55,6 +56,9 @@ public class ApiOrderIntegrationTest {
     @LocalServerPort
     private int port;
 
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
     @BeforeEach
     public void setup() {
         RestAssured.port = port;
@@ -66,7 +70,7 @@ public class ApiOrderIntegrationTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecret))
                     .body(new HashMap<String, Object>(){
                         {
                             put("customerId", "1");
@@ -94,7 +98,7 @@ public class ApiOrderIntegrationTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecret))
                     .log().all()
                 .when()
                     .get("/orders/list")
@@ -112,7 +116,7 @@ public class ApiOrderIntegrationTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecret))
                     .log().all()
                 .when()
                     .get("/orders?customerId=1")
