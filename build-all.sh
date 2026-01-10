@@ -13,6 +13,7 @@ cd customer-service \
     && cd -
 
 echo 'Building Order-Service...'
+sleep 30
 cd order-service \
     && ./gradlew clean build \
     && cd -
