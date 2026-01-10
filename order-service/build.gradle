@@ -2,9 +2,6 @@ buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath "org.apache.groovy:groovy-all:4.0.12"
-    }
 }
 
 plugins {

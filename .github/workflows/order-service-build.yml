@@ -33,5 +33,6 @@ jobs:
           set -e
           export JAVA_HOME=${{ steps.setup-jdk-21.outputs.java-home }}
           export PATH=$JAVA_HOME/bin:$PATH
+          gradle --stop # Stop any existing Gradle daemons
           cd order-service
           ./gradlew clean build --no-daemon
