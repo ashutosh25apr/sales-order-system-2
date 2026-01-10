@@ -7,6 +7,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -43,12 +44,15 @@ public class ApiOrderIntegrationTest {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
     @Test
     public void testCreateOrder() {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecret))
                     .body(new HashMap<String, Object>(){
                         {
                             put("customerId", "1");
@@ -76,7 +80,7 @@ public class ApiOrderIntegrationTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecret))
                     .log().all()
                 .when()
                     .get("http://localhost:8082/orders/list")
@@ -94,7 +98,7 @@ public class ApiOrderIntegrationTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecret))
                     .log().all()
                 .when()
                     .get("http://localhost:8082/orders?customerId=1")
