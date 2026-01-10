@@ -27,4 +27,4 @@ jobs:
         run: |
           set -e
           cd customer-service
-          mvn clean install
+          mvn clean install -U --fail-at-end
