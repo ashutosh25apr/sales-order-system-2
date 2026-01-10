@@ -40,6 +40,7 @@ public class ApiOrderIntegrationTest {
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
+    }
 
     @Autowired
     private OrderRepository orderRepository;
