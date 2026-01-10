@@ -4,6 +4,7 @@ import com.mycompany.orderservice.JwtTestUtils;
 import com.mycompany.orderservice.entity.Order;
 import com.mycompany.orderservice.repository.OrderRepository;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.junit.jupiter.api.Test;
