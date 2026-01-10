@@ -15,14 +15,24 @@ jobs:
         options: --privileged
     env:
       DOCKER_HOST: tcp://docker:2375
+      JAVA_8_HOME: ${{ steps.setup-jdk-8.outputs.java-home }}
+      JAVA_21_HOME: ${{ steps.setup-jdk-21.outputs.java-home }}
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Set up JDK 8
+        id: setup-jdk-8
         uses: actions/setup-java@v3
         with:
           java-version: '8'
+          distribution: 'temurin'
+          cache: maven
+      - name: Set up JDK 21
+        id: setup-jdk-21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
           distribution: 'temurin'
           cache: maven
 
