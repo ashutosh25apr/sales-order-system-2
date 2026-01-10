@@ -6,11 +6,12 @@ import com.mycompany.orderservice.repository.OrderRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MongoDBContainer;
@@ -50,6 +51,15 @@ public class ApiOrderIntegrationTest {
     @Autowired
     private OrderRepository orderRepository;
 
+    @LocalServerPort
+    private int port;
+
+    @BeforeEach
+    public void setup() {
+        RestAssured.port = port;
+        RestAssured.baseURI = "http://localhost";
+    }
+
     @Test
     public void testCreateOrder() {
         RestAssured
@@ -64,7 +74,7 @@ public class ApiOrderIntegrationTest {
                     })
                     .log().all()
                 .when()
-                    .post("http://localhost:8082/order")
+                    .post("/order")
                 .then()
                     .log().all()
                     .assertThat()
@@ -86,7 +96,7 @@ public class ApiOrderIntegrationTest {
                     .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
                     .log().all()
                 .when()
-                    .get("http://localhost:8082/orders/list")
+                    .get("/orders/list")
                 .then()
                     .log().all()
                     .assertThat()
@@ -104,7 +114,7 @@ public class ApiOrderIntegrationTest {
                     .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
                     .log().all()
                 .when()
-                    .get("http://localhost:8082/orders?customerId=1")
+                    .get("/orders?customerId=1")
                 .then()
                     .log().all()
                     .assertThat()
