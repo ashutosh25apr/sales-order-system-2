@@ -39,20 +39,20 @@ public class ApiOrderIntegrationTest {
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
+        registry.add("jwt.secret", () -> jwtSecretStatic);
     }
 
     @Autowired
     private OrderRepository orderRepository;
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+    private static String jwtSecretStatic = "VopbmTjbcrnKD+kAHH4imP1HdlyXu6A+CfdleXyLnQ0=";
 
     @Test
     public void testCreateOrder() {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecret))
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecretStatic))
                     .body(new HashMap<String, Object>(){
                         {
                             put("customerId", "1");
@@ -80,7 +80,7 @@ public class ApiOrderIntegrationTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecret))
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecretStatic))
                     .log().all()
                 .when()
                     .get("http://localhost:8082/orders/list")
@@ -98,7 +98,7 @@ public class ApiOrderIntegrationTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecret))
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader(jwtSecretStatic))
                     .log().all()
                 .when()
                     .get("http://localhost:8082/orders?customerId=1")
