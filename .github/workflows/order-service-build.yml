@@ -29,6 +29,8 @@ jobs:
           cache: gradle
 
       - name: Build Order Service
+        env:
+          JWT_SECRET: 6QeUA8IjhsI/dihQIkaJ8pzMHFKz0MrYLaPLtFydB7gfIaZHToh436RMVk4W40cRZelhfqbhLYOuAthqxvs+5w==
         run: |
           set -e
           export JAVA_HOME=${{ steps.setup-jdk-21.outputs.java-home }}
@@ -39,4 +41,4 @@ jobs:
 
           gradle --stop # Stop any existing Gradle daemons
           cd order-service
-          ./gradlew clean build --no-daemon
+          ./gradlew clean build --no-daemon -Djwt.secret=${{ env.JWT_SECRET }}
