@@ -77,7 +77,7 @@ jobs:
           export JAVA_HOME=$JAVA_8_HOME
           export PATH=$JAVA_HOME/bin:$PATH
           cd order-service
-          ./gradlew clean build
+          ./gradlew clean build --no-daemon
           cd -
 
           # Build Product-Service (Maven - Java 21)

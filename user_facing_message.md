@@ -1,6 +1,4 @@
-I have modified the `build-all.sh` script to correctly set the `JAVA_HOME` and `PATH` environment variables for each service, and I have updated the GitHub Actions workflow to remove the job-level `env` variables and inline the build commands directly into the workflow.
-
-This should fix the "Unrecognized named-value: 'steps'" error and the Java version mismatch during the `order-service` build.
+I have modified the GitHub Actions workflow to force Gradle to not use a daemon by adding `--no-daemon` to the build command for the `order-service`. This should prevent the Gradle daemon from using an incompatible Java version and fix the "Unsupported class file major version 61" error.
 
 To apply the fix, you need to:
 
