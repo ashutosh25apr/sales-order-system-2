@@ -65,6 +65,11 @@ public class ApiOrderIntegrationTest {
         RestAssured.baseURI = "http://localhost";
     }
 
+    @BeforeEach
+    public void setupDb() {
+        orderRepository.deleteAll();
+    }
+
     @Test
     public void testCreateOrder() {
         RestAssured
