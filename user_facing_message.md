@@ -1,4 +1,6 @@
-I have modified the `build-all.sh` script to add a 30-second delay before building the `order-service`. This should give the Docker-in-Docker service enough time to start and be ready for the tests.
+I have modified the `build-all.sh` script to make it more robust. It will now exit immediately if any command fails, which will prevent the script from continuing in an inconsistent state and producing misleading errors.
+
+This should help us to identify the root cause of the build failure more easily.
 
 To apply the fix, you need to:
 

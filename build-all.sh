@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo 'Building Backend Services...'
 
@@ -13,7 +14,6 @@ cd customer-service \
     && cd -
 
 echo 'Building Order-Service...'
-sleep 30
 cd order-service \
     && ./gradlew clean build \
     && cd -
