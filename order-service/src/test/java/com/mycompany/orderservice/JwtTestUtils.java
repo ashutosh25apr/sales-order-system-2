@@ -24,7 +24,7 @@ public final class JwtTestUtils {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setIssuer("Sales Order System")
                 .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 60 * 1000))
-                .signWith(SignatureAlgorithm.HS512, "userservice")
+                .signWith(SignatureAlgorithm.HS512, "VopbmTjbcrnKD+kAHH4imP1HdlyXu6A+CfdleXyLnQ0=")
                 .compact();
     }
 
