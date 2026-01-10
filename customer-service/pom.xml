@@ -133,8 +133,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
+			<groupId>org.apache.groovy</groupId>
+			<artifactId>groovy</artifactId>
 			<version>4.0.12</version>
 			<scope>test</scope>
 		</dependency>
