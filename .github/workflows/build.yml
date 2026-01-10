@@ -76,6 +76,7 @@ jobs:
           echo 'Building Order-Service...'
           export JAVA_HOME=$JAVA_8_HOME
           export PATH=$JAVA_HOME/bin:$PATH
+          gradle --stop # Stop any existing Gradle daemons
           cd order-service
           ./gradlew clean build --no-daemon
           cd -

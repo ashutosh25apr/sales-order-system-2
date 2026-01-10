@@ -1,5 +1,18 @@
 #!/usr/bin/env sh
 
+# Explicitly set JAVA_HOME for this script to use Java 8
+if [ -n "$JAVA_HOME" ] ; then
+    # Use the JAVA_HOME explicitly set by the environment if available
+    true
+elif [ -n "$JAVA_8_HOME" ] ; then
+    # Fallback to JAVA_8_HOME if set (from GitHub Actions)
+    export JAVA_HOME="$JAVA_8_HOME"
+fi
+
+if [ -n "$JAVA_HOME" ] ; then
+    export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
 #
 # Copyright 2015 the original author or authors.
 #
