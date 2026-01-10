@@ -4,7 +4,8 @@ import com.mycompany.orderservice.JwtTestUtils;
 import com.mycompany.orderservice.entity.Order;
 import com.mycompany.orderservice.repository.OrderRepository;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestPropertySource;
@@ -30,6 +31,8 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Testcontainers
 public class ApiOrderIntegrationTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiOrderIntegrationTest.class);
+
     @Container
     static MongoDBContainer mongoDbContainer = new MongoDBContainer("mongo:6.0.4")
         .withStartupAttempts(3)
@@ -38,7 +41,9 @@ public class ApiOrderIntegrationTest {
 
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
+        String mongoUri = mongoDbContainer.getReplicaSetUrl();
+        registry.add("spring.data.mongodb.uri", () -> mongoUri);
+        LOGGER.info("Setting spring.data.mongodb.uri to: {}", mongoUri);
     }
 
     @Autowired
