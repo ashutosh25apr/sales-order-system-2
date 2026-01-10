@@ -1,0 +1,37 @@
+name: User Service Build
+
+on:
+  push:
+    paths:
+      - 'user-service/**'
+      - '.github/workflows/user-service-build.yml'
+  pull_request:
+    paths:
+      - 'user-service/**'
+      - '.github/workflows/user-service-build.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        id: setup-jdk-21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build User Service
+        run: |
+          set -e
+          export JAVA_HOME=${{ steps.setup-jdk-21.outputs.java-home }}
+          export PATH=$JAVA_HOME/bin:$PATH
+          cd user-service
+          ./mvnw clean install
