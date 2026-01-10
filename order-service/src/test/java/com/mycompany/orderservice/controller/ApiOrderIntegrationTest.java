@@ -28,7 +28,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Testcontainers
-@TestPropertySource(properties = "jwt.secret=VopbmTjbcrnKD+kAHH4imP1HdlyXu6A+CfdleXyLnQ0=")
 public class ApiOrderIntegrationTest {
 
     @Container
@@ -50,7 +49,7 @@ public class ApiOrderIntegrationTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader("VopbmTjbcrnKD+kAHH4imP1HdlyXu6A+CfdleXyLnQ0="))
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
                     .body(new HashMap<String, Object>(){
                         {
                             put("customerId", "1");
@@ -78,7 +77,7 @@ public class ApiOrderIntegrationTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader("VopbmTjbcrnKD+kAHH4imP1HdlyXu6A+CfdleXyLnQ0="))
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
                     .log().all()
                 .when()
                     .get("http://localhost:8082/orders/list")
@@ -96,7 +95,7 @@ public class ApiOrderIntegrationTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader("VopbmTjbcrnKD+kAHH4imP1HdlyXu6A+CfdleXyLnQ0="))
+                    .headers("Authorization", "Bearer " + JwtTestUtils.getJwtRequestHeader())
                     .log().all()
                 .when()
                     .get("http://localhost:8082/orders?customerId=1")
