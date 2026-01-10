@@ -8,18 +8,37 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+@Testcontainers
 public class ApiOrderIntegrationTest {
+
+    @Container
+    static MongoDBContainer mongoDbContainer = new MongoDBContainer("mongo:6.0.4")
+        .withStartupAttempts(3)
+        .withStartupTimeout(Duration.ofSeconds(120))
+        .withCreateContainerCmdModifier(cmd -> cmd.withPlatform("linux/amd64"));
+
+    @DynamicPropertySource
+    static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
+    }
 
     @Autowired
     private OrderRepository orderRepository;
