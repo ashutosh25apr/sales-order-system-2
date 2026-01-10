@@ -3,13 +3,17 @@ package com.mycompany.orderservice;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Date;
 
 public final class JwtTestUtils {
+
+    private static String secretString = "VopbmTjbcrnKD+kAHH4imP1HdlyXu6A+CfdleXyLnQ0=";
 
     public static String getJwtRequestHeader() {
         return generateToken(new TestUserDetails());
@@ -24,7 +28,7 @@ public final class JwtTestUtils {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setIssuer("Sales Order System")
                 .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 60 * 1000))
-                .signWith(SignatureAlgorithm.HS512, "VopbmTjbcrnKD+kAHH4imP1HdlyXu6A+CfdleXyLnQ0=")
+                .signWith(Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS512)
                 .compact();
     }
 
