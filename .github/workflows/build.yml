@@ -13,11 +13,6 @@ jobs:
       docker:
         image: docker:dind
         options: --privileged
-    env:
-      DOCKER_HOST: tcp://docker:2375
-      JAVA_8_HOME: ${{ steps.setup-jdk-8.outputs.java-home }}
-      JAVA_21_HOME: ${{ steps.setup-jdk-21.outputs.java-home }}
-
     steps:
       - uses: actions/checkout@v3
 
@@ -54,4 +49,47 @@ jobs:
         run: npm install
 
       - name: Build all services
-        run: ./build-all.sh
+        env:
+          JAVA_8_HOME: ${{ steps.setup-jdk-8.outputs.java-home }}
+          JAVA_21_HOME: ${{ steps.setup-jdk-21.outputs.java-home }}
+        run: |
+          set -e
+          echo 'Building Backend Services...'
+
+          # Build User-Service (Maven - Java 21)
+          echo 'Building User-Service...'
+          export JAVA_HOME=$JAVA_21_HOME
+          export PATH=$JAVA_HOME/bin:$PATH
+          cd user-service
+          ./mvnw clean install
+          cd -
+
+          # Build Customer-Service (Maven - Java 21)
+          echo 'Building Customer-Service...'
+          export JAVA_HOME=$JAVA_21_HOME
+          export PATH=$JAVA_HOME/bin:$PATH
+          cd customer-service
+          ./mvnw clean install
+          cd -
+
+          # Build Order-Service (Gradle - Java 8)
+          echo 'Building Order-Service...'
+          export JAVA_HOME=$JAVA_8_HOME
+          export PATH=$JAVA_HOME/bin:$PATH
+          cd order-service
+          ./gradlew clean build
+          cd -
+
+          # Build Product-Service (Maven - Java 21)
+          echo 'Building Product-Service...'
+          export JAVA_HOME=$JAVA_21_HOME
+          export PATH=$JAVA_HOME/bin:$PATH
+          cd product-service
+          ./mvnw clean install
+          cd -
+
+          # Build Sales Order System app (Node.js)
+          echo 'Building Sales Order System app...'
+          cd sales-order-system
+          npm run build
+          cd -

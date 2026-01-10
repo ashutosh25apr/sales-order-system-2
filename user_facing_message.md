@@ -1,4 +1,6 @@
-I have modified the GitHub Actions workflow to set the `JAVA_HOME` environment variables for Java 8 and Java 21. This should resolve the Java version mismatch during the `order-service` build.
+I have modified the `build-all.sh` script to correctly set the `JAVA_HOME` and `PATH` environment variables for each service, and I have updated the GitHub Actions workflow to remove the job-level `env` variables and inline the build commands directly into the workflow.
+
+This should fix the "Unrecognized named-value: 'steps'" error and the Java version mismatch during the `order-service` build.
 
 To apply the fix, you need to:
 
