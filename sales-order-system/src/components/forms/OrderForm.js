@@ -10,18 +10,23 @@ const schema = Yup.object({
     items: Yup.array().of(Yup.string()).required()
 })  
 
-const submitForm = () => {
-    console.log("Submitting form")
+const submitForm = fields => {
+    console.log("Submitting form", JSON.stringify(fields))
 }
 
 const OrderForm = () => {
+    const [validated, setValidated] = useState(false)
         return (
             <Fragment>
                 <div className="contact-page-container-wrapper">
                     <h2 className="contact-form-heading">
                         Create Order
                     </h2>
-                    <Formik validationSchema={schema} onSubmit={submitForm} 
+                    <Formik validationSchema={schema} onSubmit={(fields, { setSubmitting }) => { 
+                        submitForm(fields); 
+                        setValidated(true);
+                        setSubmitting(false); 
+                    }} 
                         initialValues={{}}
                     > 
                     {({handleSubmit}) => (

@@ -4,7 +4,8 @@ import Form from 'react-bootstrap/Form'
 import Button from '@material-ui/core/Button'
 import Col from 'react-bootstrap/Col'
 import { Formik } from 'formik'
-import * as Yup from 'yup'
+import * as Yup from 'yup' 
+import { useHistory } from 'react-router-dom'
 import UserContext from '../../state/UserContext'
 
 const schema = Yup.object({
@@ -13,10 +14,12 @@ const schema = Yup.object({
 })
 
 const ItemForm = () => {
+    const [validated, setValidated] = useState(false)
     const userContext = useContext(UserContext)
     const history = useHistory()
     
     const submitForm = fields => {
+        setValidated(true)
         //console.log("Submitting form with fields: " + JSON.stringify(fields, null, 4))
         fetch(process.env.REACT_APP_PRODUCT_SERVICE + '/item', {
             method: 'POST',

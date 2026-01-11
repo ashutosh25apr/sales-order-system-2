@@ -23,9 +23,11 @@ const schema = Yup.object({
 })  
 
 const CustomerForm = () => {
+    const [validated, setValidated] = useState(false)
 
     const submitForm = fields => {
         console.log("Submitting form", JSON.stringify(fields))
+        setValidated(true)
     }
 
     return (
