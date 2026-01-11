@@ -15,10 +15,10 @@ const Customer = props => {
     let customer = props.history.location.state.customer
     let userContext = useContext(UserContext)
     
-    let dummyData = []
     const [ordersData, setOrdersData] = useState([])
 
     useEffect(() => {
+        const dummyData = []
         fetch(process.env.REACT_APP_ORDER_SERVICE + "/orders?customerId=" + customer.id, {
             method: 'GET',
             headers: {
@@ -47,7 +47,7 @@ const Customer = props => {
         .catch(error => {
             setOrdersData(dummyData)
         })
-    }, [customer.id, userContext.auth.jwtToken, customer.address, customer.dob, customer.email, customer.name, dummyData])
+    }, [customer.id, userContext.auth.jwtToken, customer.address, customer.dob, customer.email, customer.name])
 
     return (
         <Fragment>
