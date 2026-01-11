@@ -47,7 +47,7 @@ const Customer = props => {
         .catch(error => {
             setOrdersData(dummyData)
         })
-    }, [customer.id, userContext.auth.jwtToken])
+    }, [customer.id, userContext.auth.jwtToken, customer.address, customer.dob, customer.email, customer.name, dummyData])
 
     return (
         <Fragment>

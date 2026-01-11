@@ -15,8 +15,6 @@ const dummyData = [
     {name: 'Apple iPhone 11', price: 699.99},
 ]
 
-let itemData = []
-
 const Items = props => {
     const userContext = useContext(UserContext)
     console.log("Redirect:?", props.history.location)
