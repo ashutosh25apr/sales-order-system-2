@@ -3,7 +3,6 @@ package com.mycompany.customerservice;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,7 +24,7 @@ public final class JwtTestUtils {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setIssuer("Sales Order System")
                 .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 60 * 1000))
-                .signWith(Keys.secretKeyFor(SignatureAlgorithm.HS512), SignatureAlgorithm.HS512)
+                .signWith(SignatureAlgorithm.HS512, "userservice")
                 .compact();
     }
 
