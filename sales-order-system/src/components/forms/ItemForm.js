@@ -4,8 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Button from '@material-ui/core/Button'
 import Col from 'react-bootstrap/Col'
 import { Formik } from 'formik'
-import * as Yup from 'yup' 
-import { Link, useHistory } from 'react-router-dom'
+import * as Yup from 'yup'
 import UserContext from '../../state/UserContext'
 
 const schema = Yup.object({
@@ -14,7 +13,6 @@ const schema = Yup.object({
 })
 
 const ItemForm = () => {
-    const [validated, setValidated] = useState(false)
     const userContext = useContext(UserContext)
     const history = useHistory()
     
