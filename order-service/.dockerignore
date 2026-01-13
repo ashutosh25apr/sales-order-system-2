@@ -1,2 +1,0 @@
-build/*
-!build/libs/order-service-*.jar
